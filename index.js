@@ -23,4 +23,19 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('User disconnected');
     });
+
+    socket.on('create-game', (roomName) => {
+        socket.join(roomName);
+    })
+
+    socket.on('join-game', (roomName) => {
+        const roomExists = Server.sockets.adapter.rooms.has(roomName)
+        console.log(roomExists);
+        if (roomExists) {
+            socket.join(roomName)
+            console.log(`User joined room ${roomName}`)
+        } else {
+            console.log(`Room ${roomName} does not exist`)
+        }
+    });
 });
